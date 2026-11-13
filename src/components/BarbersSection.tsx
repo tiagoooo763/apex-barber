@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Star, Award, Calendar, User } from 'lucide-react';
+import { Star, Award, Calendar, User, Scissors } from 'lucide-react';
 import { BARBERS } from '../data/barbers';
 import type { Barber } from '../types';
 
@@ -15,7 +15,7 @@ export const BarbersSection: FC<BarbersSectionProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-[#d4af37]/40 text-[#b48316] text-xs font-bold tracking-widest uppercase mb-4 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-[#d4af37]/50 text-[#b48316] text-xs font-bold tracking-widest uppercase mb-4 shadow-sm">
             <User className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Mestres da Navalha & Visagismo</span>
           </div>
@@ -25,7 +25,7 @@ export const BarbersSection: FC<BarbersSectionProps> = ({
           </h2>
 
           <p className="text-base sm:text-lg text-[#52525b] font-normal leading-relaxed">
-            Escolha o profissional que combina com o seu estilo. Cada especialista traz técnicas exclusivas e atenção minuciosa.
+            Escolha o profissional que combina com o seu estilo. Cada especialista traz técnicas exclusivas e atenção minuciosa aos detalhes.
           </p>
         </div>
 
@@ -34,38 +34,47 @@ export const BarbersSection: FC<BarbersSectionProps> = ({
           {BARBERS.map(barber => (
             <div
               key={barber.id}
-              className="group rounded-2xl bg-[#fafafa] border border-zinc-200 hover:border-[#d4af37] transition-all duration-300 overflow-hidden flex flex-col justify-between hover:shadow-xl"
+              className="luxury-card rounded-2xl overflow-hidden flex flex-col justify-between group"
             >
               {/* Photo with gradient overlay and badge */}
               <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
                 <img
                   src={barber.photo}
                   alt={barber.name}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-108"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70" />
 
                 {/* Badge if present */}
                 {barber.badge && (
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#09090b] text-[#d4af37] text-[10px] font-bold tracking-wider uppercase shadow-md flex items-center gap-1.5 border border-[#d4af37]/50">
-                    <Award className="w-3 h-3" />
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#09090b] text-[#d4af37] text-[10px] font-bold tracking-wider uppercase shadow-md flex items-center gap-1.5 border border-[#d4af37]/60">
+                    <Award className="w-3 h-3 text-[#d4af37]" />
                     <span>{barber.badge}</span>
                   </div>
                 )}
 
+                {/* Live Availability Indicator */}
+                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-sm border border-emerald-500/40 text-[10px] text-emerald-400 font-semibold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Agenda Aberta</span>
+                </div>
+
                 {/* Experience counter */}
-                <div className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded bg-black/80 text-[10px] text-white backdrop-blur-sm font-semibold">
-                  {barber.experienceYears}+ anos de experiência
+                <div className="absolute bottom-3 left-3 px-2.5 py-0.5 rounded bg-black/85 text-[10px] text-zinc-200 backdrop-blur-sm font-semibold border border-white/10">
+                  {barber.experienceYears}+ anos de excelência
                 </div>
               </div>
 
               {/* Barber Details */}
               <div className="p-6 flex flex-col flex-grow justify-between bg-white">
                 <div>
-                  <h3 className="text-xl font-black text-[#09090b] group-hover:text-[#b48316] transition-colors font-display mb-1">
-                    {barber.name}
-                  </h3>
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-xl font-black text-[#09090b] group-hover:text-[#b48316] transition-colors font-display">
+                      {barber.name}
+                    </h3>
+                    <Scissors className="w-4 h-4 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity" />
+                  </div>
 
                   {/* Rating Stars */}
                   <div className="flex items-center gap-1 mb-2.5">
@@ -92,7 +101,7 @@ export const BarbersSection: FC<BarbersSectionProps> = ({
                 {/* Direct CTA */}
                 <button
                   onClick={() => onSelectBarber(barber)}
-                  className="w-full py-3 rounded-md bg-[#09090b] hover:bg-[#18181b] text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#d4af37]/40 hover:border-[#d4af37] flex items-center justify-center gap-2 cursor-pointer active:scale-95 shadow-sm"
+                  className="w-full py-3.5 rounded-md bg-[#09090b] hover:bg-[#18181b] text-white font-bold text-xs uppercase tracking-wider transition-all duration-300 border border-[#d4af37]/50 hover:border-[#d4af37] flex items-center justify-center gap-2 cursor-pointer active:scale-95 shadow-md btn-shimmer"
                 >
                   <Calendar className="w-3.5 h-3.5 text-[#d4af37]" />
                   <span>Agendar com este Barbeiro</span>

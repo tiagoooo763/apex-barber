@@ -184,7 +184,7 @@ export const Footer: FC<FooterProps> = ({
 
         {/* Bottom Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <p>© 2026 Apex Barber. Todos os direitos reservados.</p>
+          <p>© 2026 Apex Barber. Todos os direitos reservados. <a href="https://barbdash.vercel.app" className="ml-3 hover:text-white">Painel BarbDash</a></p>
           <p className="text-[11px] text-[#d4af37]">
             Nova Porteirinha – MG | Barbeiro Visagista
           </p>
@@ -193,3 +193,4 @@ export const Footer: FC<FooterProps> = ({
     </footer>
   );
 };
+

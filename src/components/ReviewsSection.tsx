@@ -9,7 +9,7 @@ export const ReviewsSection: FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-[#d4af37]/40 text-[#b48316] text-xs font-bold tracking-widest uppercase mb-4 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-[#d4af37]/50 text-[#b48316] text-xs font-bold tracking-widest uppercase mb-4 shadow-sm">
             <MessageSquare className="w-3.5 h-3.5 text-[#d4af37]" />
             <span>Depoimentos Reais</span>
           </div>
@@ -41,7 +41,7 @@ export const ReviewsSection: FC = () => {
           {REVIEWS.map(review => (
             <div
               key={review.id}
-              className="rounded-2xl p-7 bg-[#fafafa] border border-zinc-200 hover:border-[#d4af37] transition-all duration-300 flex flex-col justify-between group hover:shadow-lg"
+              className="luxury-card rounded-2xl p-7 flex flex-col justify-between group"
             >
               <div>
                 {/* Header with stars and quote icon */}

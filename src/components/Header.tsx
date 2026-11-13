@@ -68,7 +68,7 @@ export const Header: FC<HeaderProps> = ({
         </button>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#27272a]">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-semibold text-[#27272a]">
           <button
             onClick={() => handleNavClick('hero')}
             className={`transition-colors cursor-pointer py-1 tracking-wider uppercase text-xs hover:text-[#b48316] ${
@@ -82,6 +82,12 @@ export const Header: FC<HeaderProps> = ({
             className="hover:text-[#b48316] transition-colors cursor-pointer py-1 tracking-wider uppercase text-xs"
           >
             Serviços
+          </button>
+          <button
+            onClick={() => handleNavClick('visagismo')}
+            className="hover:text-[#b48316] transition-colors cursor-pointer py-1 tracking-wider uppercase text-xs font-bold text-[#b48316]"
+          >
+            Visagismo
           </button>
           <button
             onClick={() => handleNavClick('barbeiros')}
@@ -165,6 +171,13 @@ export const Header: FC<HeaderProps> = ({
               Serviços
             </button>
             <button
+              onClick={() => handleNavClick('visagismo')}
+              className="text-left text-[#b48316] font-bold py-2 border-b border-zinc-100 uppercase tracking-wider text-xs flex items-center justify-between"
+            >
+              <span>Simulador Visagista</span>
+              <span className="text-[10px] bg-[#d4af37]/20 px-2 py-0.5 rounded text-[#b48316]">Novo</span>
+            </button>
+            <button
               onClick={() => handleNavClick('barbeiros')}
               className="text-left text-[#18181b] hover:text-[#b48316] py-2 border-b border-zinc-100 uppercase tracking-wider text-xs"
             >
@@ -187,6 +200,12 @@ export const Header: FC<HeaderProps> = ({
               className="text-left text-[#18181b] hover:text-[#b48316] py-2 border-b border-zinc-100 uppercase tracking-wider text-xs"
             >
               Galeria & Trabalhos
+            </button>
+            <button
+              onClick={() => handleNavClick('faq')}
+              className="text-left text-[#18181b] hover:text-[#b48316] py-2 border-b border-zinc-100 uppercase tracking-wider text-xs"
+            >
+              Dúvidas Frequentes
             </button>
             <button
               onClick={() => handleNavClick('contato')}

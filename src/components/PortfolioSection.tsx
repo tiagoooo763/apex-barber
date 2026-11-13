@@ -63,7 +63,7 @@ export const PortfolioSection: FC = () => {
             <div
               key={item.id}
               onClick={() => setSelectedItem(item)}
-              className="group relative rounded-xl overflow-hidden aspect-[4/5] bg-zinc-100 border border-zinc-200 cursor-pointer shadow-sm hover:border-[#d4af37] hover:shadow-xl transition-all duration-300"
+              className="group relative rounded-2xl overflow-hidden aspect-[4/5] bg-zinc-100 border border-zinc-200/80 cursor-pointer shadow-sm hover:border-[#d4af37] hover:shadow-2xl transition-all duration-500 hover:-translate-y-1.5"
             >
               <img
                 src={item.image}

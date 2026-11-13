@@ -50,16 +50,16 @@ export const BookingModal: FC<BookingModalProps> = ({
 
   const upcomingDates = useMemo(() => {
     const list = [];
-    const today = new Date();
+    const today = new Date(formatDateKey(new Date()) + 'T12:00:00Z');
     for (let i = 0; i < 14; i++) {
       const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      const isSunday = d.getDay() === 0;
+      d.setUTCDate(today.getUTCDate() + i);
+      const isSunday = d.getUTCDay() === 0;
       const key = formatDateKey(d);
       
-      const dayOfWeek = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '');
-      const dayOfMonth = d.getDate();
-      const monthName = d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+      const dayOfWeek = d.toLocaleDateString('pt-BR', { weekday: 'short', timeZone: 'America/Sao_Paulo' }).replace('.', '');
+      const dayOfMonth = d.getUTCDate();
+      const monthName = d.toLocaleDateString('pt-BR', { month: 'short', timeZone: 'America/Sao_Paulo' }).replace('.', '');
 
       list.push({
         date: d,
@@ -84,9 +84,7 @@ export const BookingModal: FC<BookingModalProps> = ({
       }
 
       const defaultDate = upcomingDates[0].isSunday ? upcomingDates[1].key : upcomingDates[0].key;
-      if (!selectedDate) {
-        setSelectedDate(defaultDate);
-      }
+      setSelectedDate(defaultDate);
 
       if (initialService && initialBarber) {
         setCurrentStep(3);
@@ -98,20 +96,20 @@ export const BookingModal: FC<BookingModalProps> = ({
         setCurrentStep(1);
       }
     }
-  }, [isOpen, initialService, initialBarber, upcomingDates, selectedDate]);
+  }, [isOpen, initialService, initialBarber, upcomingDates]);
 
   useEffect(() => {
-    if (selectedBarber && selectedDate) {
-      const availableSlots = getBarberSlotsForDate(selectedBarber.id, selectedDate);
-      setSlots(availableSlots);
-      if (selectedTime) {
-        const slot = availableSlots.find(s => s.time === selectedTime);
-        if (!slot || !slot.available) {
-          setSelectedTime('');
-        }
-      }
+    let active = true;
+    setSelectedTime('');
+    setSlots([]);
+    if (isOpen && selectedBarber && selectedDate && selectedService) {
+      setValidationError('Consultando horários disponíveis...');
+      getBarberSlotsForDate(selectedBarber.id, selectedDate, selectedService.id)
+        .then(result => { if (active) { setSlots(result); setValidationError(''); } })
+        .catch(error => { if (active) setValidationError(error.message); });
     }
-  }, [selectedBarber, selectedDate, selectedTime]);
+    return () => { active = false; };
+  }, [isOpen, selectedBarber, selectedDate, selectedService]);
 
   if (!isOpen) return null;
 
@@ -506,7 +504,7 @@ export const BookingModal: FC<BookingModalProps> = ({
           {currentStep === 4 && (
             <div className="space-y-4">
               <p className="text-xs text-zinc-600 font-medium">
-                Informe seus dados de contato para confirmar o agendamento e receber o lembrete via WhatsApp:
+                Informe seus dados de contato para confirmar o agendamento:
               </p>
 
               <div>
@@ -540,7 +538,7 @@ export const BookingModal: FC<BookingModalProps> = ({
               <div>
                 <label className="text-xs font-bold text-[#09090b] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <Mail className="w-3.5 h-3.5 text-[#b48316]" />
-                  <span>E-mail (Opcional)</span>
+                  <span>E-mail (confirmado na próxima etapa)</span>
                 </label>
                 <input
                   type="email"
@@ -616,3 +614,4 @@ export const BookingModal: FC<BookingModalProps> = ({
     </div>
   );
 };
+

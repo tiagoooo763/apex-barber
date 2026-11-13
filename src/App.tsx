@@ -1,25 +1,41 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { InfoBar } from './components/InfoBar';
 import { ServicesSection } from './components/ServicesSection';
+import { VisagismSimulator } from './components/VisagismSimulator';
 import { BarbersSection } from './components/BarbersSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { PortfolioSection } from './components/PortfolioSection';
 import { PlansSection } from './components/PlansSection';
 import { ReviewsSection } from './components/ReviewsSection';
+import { FaqSection } from './components/FaqSection';
 import { LocationContactSection } from './components/LocationContactSection';
 import { Footer } from './components/Footer';
 import { FloatingActions } from './components/FloatingActions';
 import { BookingModal } from './components/BookingModal';
 import { CheckoutPage } from './components/CheckoutPage';
+import { ToastContainer } from './components/Toast';
+import type { ToastMessage } from './components/Toast';
 import type { Service, Barber, Plan, BookingState } from './types';
 
 export function App() {
+  return window.location.pathname.startsWith('/admin') ? <AdminRedirect /> : <PublicApp />;
+}
+
+function AdminRedirect() {
+  useEffect(() => {
+    window.location.replace('https://barbdash.vercel.app');
+  }, []);
+  return <p>Abrindo BarbDash… <a href="https://barbdash.vercel.app">Entrar no painel</a></p>;
+}
+
+function PublicApp() {
   const [currentView, setCurrentView] = useState<'home' | 'checkout'>('home');
   const [isBookingOpen, setIsBookingOpen] = useState<boolean>(false);
   const [preselectedService, setPreselectedService] = useState<Service | null>(null);
   const [preselectedBarber, setPreselectedBarber] = useState<Barber | null>(null);
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const [checkoutBooking, setCheckoutBooking] = useState<BookingState>({
     service: null,
@@ -32,6 +48,18 @@ export function App() {
     notes: '',
     plan: null
   });
+
+  const addToast = useCallback((type: 'success' | 'info' | 'error', title: string, description?: string) => {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    setToasts((prev) => [...prev, { id, type, title, description }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 4500);
+  }, []);
+
+  const dismissToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -56,6 +84,11 @@ export function App() {
     setPreselectedService(service || null);
     setPreselectedBarber(barber || null);
     setIsBookingOpen(true);
+    if (service) {
+      addToast('info', 'Serviço Selecionado', `${service.name} (R$ ${service.price.toFixed(2).replace('.', ',')})`);
+    } else if (barber) {
+      addToast('info', 'Barbeiro Escolhido', `${barber.name} (${barber.specialty})`);
+    }
   };
 
   const handleCloseBookingModal = () => {
@@ -68,6 +101,7 @@ export function App() {
     setCurrentView('checkout');
     window.location.hash = '#checkout';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    addToast('success', 'Horário Pré-selecionado!', 'Conclua a reserva com seus dados na página de checkout.');
   };
 
   const handleSelectPlan = (plan: Plan) => {
@@ -85,6 +119,7 @@ export function App() {
     setCurrentView('checkout');
     window.location.hash = '#checkout';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    addToast('success', `Plano ${plan.name}`, 'Preencha suas informações para ativar a assinatura.');
   };
 
   const handleGoHome = () => {
@@ -107,13 +142,15 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#faf8f5] text-[#18181b] flex flex-col font-sans selection:bg-[#d4af37]/30 selection:text-[#09090b]">
       <Header
         onOpenBooking={() => handleOpenBookingModal()}
         onNavigate={handleNavigateSection}
         currentView={currentView}
         onGoHome={handleGoHome}
       />
+
+      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
 
       {currentView === 'checkout' ? (
         <main className="flex-grow">
@@ -136,6 +173,11 @@ export function App() {
             onScrollToPlans={() => handleNavigateSection('planos')}
           />
 
+          {/* Simulador Visagista Apex */}
+          <VisagismSimulator
+            onSelectService={(service) => handleOpenBookingModal(service, null)}
+          />
+
           <BarbersSection
             onSelectBarber={(barber) => handleOpenBookingModal(null, barber)}
           />
@@ -151,6 +193,8 @@ export function App() {
           />
 
           <ReviewsSection />
+
+          <FaqSection />
 
           <LocationContactSection />
         </main>

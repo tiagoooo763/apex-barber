@@ -93,7 +93,7 @@ export const ExperienceSection: FC<ExperienceSectionProps> = ({
                 return (
                   <div
                     key={idx}
-                    className="p-4 rounded-xl bg-white border border-zinc-200 hover:border-[#d4af37] transition-all duration-200 shadow-sm group hover:shadow-md"
+                    className="luxury-card p-4 rounded-xl group"
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className="w-8 h-8 rounded-lg bg-zinc-100 border border-zinc-200 group-hover:border-[#d4af37] flex items-center justify-center text-[#b48316] shrink-0 transition-colors">
@@ -115,7 +115,7 @@ export const ExperienceSection: FC<ExperienceSectionProps> = ({
             <div className="pt-2">
               <button
                 onClick={onOpenBooking}
-                className="px-8 py-4 rounded-md bg-[#09090b] hover:bg-[#18181b] text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 active:scale-95 cursor-pointer shadow-lg border border-[#d4af37]"
+                className="px-8 py-4 rounded-md bg-[#09090b] hover:bg-[#18181b] text-white font-bold text-xs uppercase tracking-widest transition-all duration-300 active:scale-95 cursor-pointer shadow-lg border border-[#d4af37] btn-shimmer"
               >
                 Viver a Experiência Apex
               </button>

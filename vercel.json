@@ -7,5 +7,17 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "https://barbdash.vercel.app",
+      "permanent": false
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "https://barbdash.vercel.app",
+      "permanent": false
+    }
   ]
 }
